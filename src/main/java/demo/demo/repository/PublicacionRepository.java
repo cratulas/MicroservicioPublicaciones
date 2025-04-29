@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface PublicacionRepository extends JpaRepository<Publicacion, Long> {
     List<Publicacion> findByTituloContainingIgnoreCase(String titulo);
-    
     List<Publicacion> findByEstado(String estado);
-
+    List<Publicacion> findByTituloContainingIgnoreCaseAndEstado(String titulo, String estado);
 }

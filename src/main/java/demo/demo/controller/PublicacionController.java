@@ -14,20 +14,21 @@ public class PublicacionController {
 
     @Autowired
     private PublicacionService publicacionService;
-
-    // Obtener todas las publicaciones
+    
     @GetMapping
-    public List<Publicacion> listarPublicaciones() {
-        return publicacionService.obtenerTodasLasPublicaciones();
-    }
+    public List<Publicacion> listarPublicaciones(@RequestParam(required = false) String estado) {
+        if (estado != null) {
+            return publicacionService.obtenerPublicacionesPorEstado(estado);
+        } else {
+            return publicacionService.obtenerTodasLasPublicaciones();
+        }
+}
 
-    // Buscar publicaciones por título
     @GetMapping("/buscar")
     public List<Publicacion> buscarPorTitulo(@RequestParam String titulo) {
         return publicacionService.buscarPublicacionesPorTitulo(titulo);
     }
 
-    // Obtener publicación por ID
     @GetMapping("/{id}")
     public ResponseEntity<Publicacion> obtenerPorId(@PathVariable Long id) {
         return publicacionService.obtenerPublicacionPorId(id)
@@ -35,9 +36,30 @@ public class PublicacionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Crear nueva publicación
     @PostMapping
     public Publicacion crearPublicacion(@RequestBody Publicacion publicacion) {
         return publicacionService.crearPublicacion(publicacion);
     }
+
+    @PutMapping("/{id}")
+    public Publicacion actualizarPublicacion(@PathVariable Long id, @RequestBody Publicacion publicacion) {
+        return publicacionService.actualizarPublicacion(id, publicacion);
+    }
+
+    @PatchMapping("/{id}/estado")
+    public Publicacion cambiarEstadoPublicacion(@PathVariable Long id, @RequestParam String estado) {
+        return publicacionService.cambiarEstadoPublicacion(id, estado);
+    }
+
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<Publicacion> cambiarEstado(@PathVariable Long id, @RequestParam String estado) {
+        return publicacionService.obtenerPublicacionPorId(id)
+                .map(publicacion -> {
+                    publicacion.setEstado(estado);
+                    Publicacion actualizada = publicacionService.crearPublicacion(publicacion);
+                    return ResponseEntity.ok(actualizada);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }

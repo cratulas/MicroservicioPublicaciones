@@ -17,17 +17,40 @@ public class PublicacionService {
     public List<Publicacion> obtenerTodasLasPublicaciones() {
         return publicacionRepository.findByEstado("activo");
     }
-    
 
+    public List<Publicacion> obtenerPublicacionesPorEstado(String estado) {
+        return publicacionRepository.findByEstado(estado);
+    }
+    
+    
     public Optional<Publicacion> obtenerPublicacionPorId(Long id) {
         return publicacionRepository.findById(id);
     }
 
     public List<Publicacion> buscarPublicacionesPorTitulo(String titulo) {
-        return publicacionRepository.findByTituloContainingIgnoreCase(titulo);
+        return publicacionRepository.findByTituloContainingIgnoreCaseAndEstado(titulo, "activo");
     }
 
     public Publicacion crearPublicacion(Publicacion publicacion) {
         return publicacionRepository.save(publicacion);
+    }
+    
+    public Publicacion actualizarPublicacion(Long id, Publicacion publicacionActualizada) {
+        return publicacionRepository.findById(id)
+                .map(publicacion -> {
+                    publicacion.setTitulo(publicacionActualizada.getTitulo());
+                    publicacion.setContenido(publicacionActualizada.getContenido());
+                    return publicacionRepository.save(publicacion);
+                })
+                .orElseThrow(() -> new RuntimeException("Publicación no encontrada"));
+    }
+
+    public Publicacion cambiarEstadoPublicacion(Long id, String nuevoEstado) {
+        return publicacionRepository.findById(id)
+                .map(publicacion -> {
+                    publicacion.setEstado(nuevoEstado);
+                    return publicacionRepository.save(publicacion);
+                })
+                .orElseThrow(() -> new RuntimeException("Publicación no encontrada"));
     }
 }
