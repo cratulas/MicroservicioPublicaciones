@@ -15,8 +15,9 @@ public class PublicacionService {
     private PublicacionRepository publicacionRepository;
 
     public List<Publicacion> obtenerTodasLasPublicaciones() {
-        return publicacionRepository.findAll();
+        return publicacionRepository.findByEstado("activo");
     }
+    
 
     public Optional<Publicacion> obtenerPublicacionPorId(Long id) {
         return publicacionRepository.findById(id);

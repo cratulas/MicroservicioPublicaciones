@@ -18,6 +18,10 @@ public class Comentario {
     @Column(name = "id_comentario")
     private Long idComentario;
 
+    @Column(name = "estado")
+    private String estado = "activo";  
+
+
     @NotBlank(message = "El contenido del comentario es obligatorio")
     @Lob
     private String contenido;

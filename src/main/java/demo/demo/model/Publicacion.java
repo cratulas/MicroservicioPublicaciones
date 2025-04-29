@@ -13,10 +13,15 @@ import java.util.Date;
 @Setter
 public class Publicacion {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_publicacion")
     private Long idPublicacion;
+
+    @Column(name = "estado")
+    private String estado = "activo"; 
 
     @NotBlank(message = "El título es obligatorio")
     private String titulo;
