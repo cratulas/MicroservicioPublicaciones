@@ -22,11 +22,16 @@ public class PublicacionController {
         } else {
             return publicacionService.obtenerTodasLasPublicaciones();
         }
-}
+    }
 
     @GetMapping("/buscar")
     public List<Publicacion> buscarPorTitulo(@RequestParam String titulo) {
-        return publicacionService.buscarPublicacionesPorTitulo(titulo);
+        return publicacionService.buscarPublicacionesPorTitulo(titulo); // ya está filtrando por "activo"
+    }
+
+    @GetMapping("/categoria")
+    public List<Publicacion> filtrarPorCategoria(@RequestParam Long idCategoria) {
+        return publicacionService.obtenerPublicacionesPorCategoria(idCategoria);
     }
 
     @GetMapping("/{id}")

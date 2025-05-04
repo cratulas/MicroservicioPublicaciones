@@ -15,8 +15,9 @@ public class PublicacionService {
     private PublicacionRepository publicacionRepository;
 
     public List<Publicacion> obtenerTodasLasPublicaciones() {
-        return publicacionRepository.findByEstado("activo");
+        return publicacionRepository.findAll(); 
     }
+    
 
     public List<Publicacion> obtenerPublicacionesPorEstado(String estado) {
         return publicacionRepository.findByEstado(estado);
@@ -27,9 +28,22 @@ public class PublicacionService {
         return publicacionRepository.findById(id);
     }
 
+    public List<Publicacion> buscarPublicacionesPorTituloYEstado(String titulo, String estado) {
+        if (estado == null || estado.isEmpty()) {
+            return publicacionRepository.findByTituloContainingIgnoreCase(titulo);
+        } else {
+            return publicacionRepository.findByTituloContainingIgnoreCaseAndEstado(titulo, estado);
+        }
+    }
+    
     public List<Publicacion> buscarPublicacionesPorTitulo(String titulo) {
         return publicacionRepository.findByTituloContainingIgnoreCaseAndEstado(titulo, "activo");
     }
+    
+    public List<Publicacion> obtenerPublicacionesPorCategoria(Long idCategoria) {
+        return publicacionRepository.findByCategoriaIdCategoriaAndEstado(idCategoria, "activo");
+    }
+    
 
     public Publicacion crearPublicacion(Publicacion publicacion) {
         return publicacionRepository.save(publicacion);

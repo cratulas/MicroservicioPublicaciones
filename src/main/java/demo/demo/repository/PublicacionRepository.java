@@ -11,4 +11,5 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Long> 
     List<Publicacion> findByTituloContainingIgnoreCase(String titulo);
     List<Publicacion> findByEstado(String estado);
     List<Publicacion> findByTituloContainingIgnoreCaseAndEstado(String titulo, String estado);
+    List<Publicacion> findByCategoriaIdCategoriaAndEstado(Long idCategoria, String estado);    
 }

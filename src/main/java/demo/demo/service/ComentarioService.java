@@ -15,8 +15,10 @@ public class ComentarioService {
     private ComentarioRepository comentarioRepository;
 
     public List<Comentario> obtenerComentariosPorPublicacion(Long idPublicacion) {
-        return comentarioRepository.findByPublicacionIdPublicacion(idPublicacion);
+        return comentarioRepository.findByPublicacionIdPublicacion(idPublicacion); 
     }
+    
+    
 
     public List<Comentario> obtenerComentariosPorPublicacionYEstado(Long idPublicacion, String estado) {
         return comentarioRepository.findByPublicacionIdPublicacionAndEstado(idPublicacion, estado);
